@@ -24,7 +24,7 @@ export function AdminLayout() {
     <div className="app">
       <nav className="sidebar">
         <div className="sidebar__brand">
-          sub-keeper<span className="nav-item__premium"> · 관리자</span>
+          구독모아<span className="nav-item__premium"> · 관리자</span>
         </div>
 
         {ADMIN_NAV.map((item) => (
