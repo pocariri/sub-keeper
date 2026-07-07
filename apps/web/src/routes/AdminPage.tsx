@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import {
   Bar,
   BarChart,
@@ -27,12 +26,7 @@ export function AdminPage() {
 
   return (
     <section className="page">
-      <div className="page__head">
-        <h1 className="page__title">관리자</h1>
-        <Link to="/admin/inquiries" className="ui-btn ui-btn--secondary">
-          문의 관리
-        </Link>
-      </div>
+      <h1 className="page__title">관리자</h1>
       <p className="page__subtitle">서비스 지표와 회원 현황 · 읽기 전용</p>
 
       {loading ? (
