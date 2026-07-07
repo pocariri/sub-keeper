@@ -23,3 +23,8 @@ export function canAddSubscription(
 ): boolean {
   return currentCount < subscriptionLimit(profile);
 }
+
+/** 관리자 여부 (UX 게이팅용 — 실제 데이터 보호는 DB is_admin() RLS) */
+export function isAdmin(profile: Profile | null): boolean {
+  return profile?.role === 'admin';
+}

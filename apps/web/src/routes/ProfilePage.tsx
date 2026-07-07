@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { isPremiumActive, FREE_SUBSCRIPTION_LIMIT } from '@sub-keeper/core';
 import { useSession } from '../app/session';
 import { useProfile } from '../lib/useProfile';
@@ -69,6 +69,14 @@ export function ProfilePage() {
                 <UpgradeButton />
               </>
             )}
+          </div>
+
+          {/* 지원 */}
+          <div className="page__section">
+            <div className="field-label">지원</div>
+            <Link to="/app/inquiries" className="ui-btn ui-btn--secondary">
+              문의하기
+            </Link>
           </div>
 
           {/* 계정 액션 */}

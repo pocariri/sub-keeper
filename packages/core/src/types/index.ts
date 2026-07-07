@@ -6,7 +6,8 @@ export type {
   SubscriptionInput,
 } from './subscription';
 export type { ServicePreset, SubscriptionPrefill } from './preset';
-export type { Plan, Profile } from './user';
+export type { InquiryStatus, Inquiry, InquiryInput } from './inquiry';
+export type { Plan, Profile, UserRole } from './user';
 export type {
   PlanType,
   BillingStatus,

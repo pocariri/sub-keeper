@@ -80,6 +80,19 @@ pnpm build:web          # 웹 프로덕션 빌드
   - 스타일: 이전 소개사이트(introduce-sub-keeper) CSS를 포팅하되 `:root`를 **core 토큰 값으로 매핑**, 전역 요소 규칙은 `.lp` 래퍼로 스코프 → **앱 화면 무영향**. 무채색 유지.
   - 소개사이트의 목(mock) `AuthModal`은 버리고 CTA는 실제 `/login`·`/signup`으로 연결. 로그인 상태면 헤더가 "앱으로 가기"(→`/app`).
   - `apps/web/_introduce-src/` 는 통합 후 삭제 대상(원본 소스).
-- 남은 것(웹): **결제 모듈**(prd-payment, PG/Edge Functions), **관리자**(prd-admin), 분석 차트(결제 후), 환율 시드(현재 통화별 분리 표시), `_introduce-src` 정리.
+- **1:1 문의 — 완료(웹, 사용자용)**:
+  - core: `types/inquiry.ts`(`Inquiry`·`InquiryInput`·`InquiryStatus`), `validation/inquiry.ts`(`inquiryInputSchema`), `data/inquiries.ts`(`listInquiries`/`createInquiry`, 구독 데이터 계층과 동일 패턴).
+  - 웹: `/app/inquiries`(`InquiriesPage`: 목록 + 상태 배지 "답변 대기/답변 완료" + 답변 블록, `InquiryForm` 오버레이 작성 폼, `useInquiries` 훅), 내 정보에 "지원 > 문의하기" 진입점(사이드바 미추가 — `APP_SECTIONS` 안 건드림).
+  - DB `inquiries`(0004 마이그레이션)와 RLS 5개 정책은 원격에 이미 적용돼 있음을 확인. 본인 것만 조회는 RLS가 보장. 관리자 답변 UI는 prd-admin 몫(미착수).
+- **관리자 라우트 골격 — 완료(웹)**:
+  - core: `Profile`에 `role: UserRole('user'|'admin')` 추가(`types/user.ts`), `getProfile` 매핑에 role 포함, `logic/plan.ts`에 `isAdmin(profile)` 헬퍼.
+  - 웹: `/admin` 이하 = `RequireAuth`(비로그인→`/login`) → `RequireAdmin`(비admin→`/app`, 미설정 시 개발 바이패스) → `AppLayout` → `AdminPage`(PagePlaceholder 자리표시). 사이드바 "관리자" NavLink는 admin에게만 렌더(`APP_SECTIONS` 안 건드림 — 웹 하드코딩).
+  - 클라이언트 가드는 UX용, 데이터 보호는 0003의 `is_admin()` RLS. admin 계정: `admin01@admin.com`(수동 승격됨).
+- **관리자 대시보드 — 완료(웹, 1차)**:
+  - core: `listAllProfiles`(`data/profile.ts`, RLS가 범위 통제), `logic/admin.ts`의 `buildAdminOverview`(회원별 구독 집계·프리미엄 이용률·월별 가입 추이 6개월 제로필, 순수 함수). 구독 전체 조회는 기존 `listSubscriptions` 재사용(관리자면 RLS가 전체 반환).
+  - 웹: `AdminPage` = KPI 스탯(총 회원·프리미엄 이용률·활성 구독) + **recharts 3.x** 신규 가입 추이 BarChart(무채색, 색은 core `tokens.colors.gray` 직접 전달 — SVG에 CSS var 불가) + 매출 추이/해지율 "준비 중" 빈 패널 + 회원 목록 테이블(`.subs-table` 재사용). `useAdminOverview` 훅.
+  - ⚠️ recharts 추가로 웹 번들 ~925KB(gzip 266KB) — 필요 시 코드 스플리팅 후보. Expo 툴링이 react-dom@19.2.7 peer 경고를 내지만 웹 트리는 19.2.3 단일(무관).
+  - 다음: 회원 상세/문의 답변 UI, 결제 후 매출·해지율 실데이터.
+- 남은 것(웹): **결제 모듈**(prd-payment, PG/Edge Functions), **관리자 화면 내용**(prd-admin, 문의 답변 포함 — 라우트 골격은 완료), 분석 차트(결제 후), 환율 시드(현재 통화별 분리 표시), `_introduce-src` 정리.
 - **모바일**: 사용자 요청 시까지 보류(현재 placeholder만). 공유 로직은 core에 준비됨.
 - 로드맵: `prd-app.md` 11장.

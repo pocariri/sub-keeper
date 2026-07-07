@@ -621,6 +621,80 @@
   margin-top: var(--sp-2);
 }
 
+/* ---------- Inquiries (문의하기) ---------- */
+.inquiries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.inquiry {
+  padding: var(--sp-6);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.inquiry__head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.inquiry__status {
+  flex: none;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg-subtle);
+  color: var(--ink-700);
+}
+.inquiry__status--answered {
+  background: var(--ink-900);
+  color: var(--surface);
+}
+.inquiry__title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ink-900);
+}
+.inquiry__meta {
+  flex: none;
+  font-size: 12px;
+  color: var(--ink-400);
+}
+.inquiry__body {
+  margin: var(--sp-3) 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-700);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.inquiry__answer {
+  margin-top: var(--sp-4);
+  padding: var(--sp-4);
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+}
+.inquiry__answer-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-500);
+}
+.inquiry__answer-body {
+  margin: var(--sp-2) 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-900);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .app *,
   .form-panel,
