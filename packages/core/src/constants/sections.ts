@@ -4,6 +4,7 @@ export type SectionId =
   | 'subscriptions'
   | 'analytics'
   | 'renewals'
+  | 'inquiries'
   | 'profile';
 
 export interface AppSection {
@@ -18,5 +19,6 @@ export const APP_SECTIONS = [
   { id: 'subscriptions', label: '구독', premiumOnly: false },
   { id: 'analytics', label: '분석', premiumOnly: true },
   { id: 'renewals', label: '갱신', premiumOnly: false },
+  { id: 'inquiries', label: '문의하기', premiumOnly: false },
   { id: 'profile', label: '내 정보', premiumOnly: false },
 ] as const satisfies readonly AppSection[];

@@ -10,6 +10,7 @@ const PATHS: Record<SectionId, string> = {
   subscriptions: '/app/subscriptions',
   analytics: '/app/analytics',
   renewals: '/app/renewals',
+  inquiries: '/app/inquiries',
   profile: '/app/profile',
 };
 
