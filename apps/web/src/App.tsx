@@ -3,6 +3,8 @@ import { LandingPage } from './landing/LandingPage';
 import { AppLayout } from './app/AppLayout';
 import { RequireAuth } from './app/RequireAuth';
 import { RequireAdmin } from './app/RequireAdmin';
+import { RequireMember } from './app/RequireMember';
+import { AdminLayout } from './app/AdminLayout';
 import { LoginPage } from './routes/LoginPage';
 import { DashboardPage } from './routes/DashboardPage';
 import { SubscriptionsPage } from './routes/SubscriptionsPage';
@@ -24,24 +26,27 @@ export default function App() {
 
       {/* 인증 필요 — /app 이하 */}
       <Route path="/app" element={<RequireAuth />}>
-        <Route element={<AppLayout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="subscriptions" element={<SubscriptionsPage />} />
-          <Route path="analytics" element={<AnalyticsPage />} />
-          <Route path="renewals" element={<RenewalsPage />} />
-          <Route path="profile" element={<ProfilePage />} />
-          <Route path="inquiries" element={<InquiriesPage />} />
-          <Route
-            path="*"
-            element={<PagePlaceholder title="404" note="존재하지 않는 페이지입니다." />}
-          />
+        {/* 관리자는 회원 화면을 쓰지 않음 → /admin 으로 (화면 분리, RLS 불변) */}
+        <Route element={<RequireMember />}>
+          <Route element={<AppLayout />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="subscriptions" element={<SubscriptionsPage />} />
+            <Route path="analytics" element={<AnalyticsPage />} />
+            <Route path="renewals" element={<RenewalsPage />} />
+            <Route path="profile" element={<ProfilePage />} />
+            <Route path="inquiries" element={<InquiriesPage />} />
+            <Route
+              path="*"
+              element={<PagePlaceholder title="404" note="존재하지 않는 페이지입니다." />}
+            />
+          </Route>
         </Route>
       </Route>
 
       {/* 관리자 전용 — /admin 이하 (비로그인 → /login, 비관리자 → /app) */}
       <Route path="/admin" element={<RequireAuth />}>
         <Route element={<RequireAdmin />}>
-          <Route element={<AppLayout />}>
+          <Route element={<AdminLayout />}>
             <Route index element={<AdminPage />} />
             <Route path="inquiries" element={<AdminInquiriesPage />} />
             <Route
