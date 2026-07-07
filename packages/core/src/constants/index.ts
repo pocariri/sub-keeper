@@ -7,3 +7,4 @@ export {
 } from './plans';
 export { APP_SECTIONS } from './sections';
 export type { AppSection, SectionId } from './sections';
+export { PAYMENT_METHODS } from './paymentMethods';

@@ -1,6 +1,7 @@
 import { useState, type CSSProperties, type FormEvent, type ReactNode } from 'react';
 import {
   CATEGORIES,
+  PAYMENT_METHODS,
   subscriptionInputSchema,
   createSubscription,
   updateSubscription,
@@ -17,6 +18,13 @@ import { CYCLE_LABELS } from '../lib/labels';
 
 const CURRENCIES: CurrencyCode[] = ['KRW', 'USD', 'EUR', 'JPY'];
 const CYCLES: BillingCycle[] = ['weekly', 'monthly', 'yearly', 'custom'];
+
+/** 프리셋 목록의 '기타' — 선택 시 직접 입력값을 저장 */
+const OTHER_METHOD = '기타';
+
+function isPresetMethod(value: string): boolean {
+  return (PAYMENT_METHODS as readonly string[]).includes(value);
+}
 
 interface Props {
   initial: Subscription | null;
@@ -48,7 +56,14 @@ export function SubscriptionForm({ initial, prefill = null, onSaved, onCancel }:
   const [category, setCategory] = useState(
     initial?.category ?? prefill?.category ?? CATEGORIES[0].id,
   );
-  const [paymentMethod, setPaymentMethod] = useState(initial?.paymentMethod ?? '');
+  // 기존 값이 프리셋에 있으면 그 항목, 없으면 '기타' + 직접 입력으로 표시
+  const savedMethod = initial?.paymentMethod ?? '';
+  const [methodChoice, setMethodChoice] = useState<string>(
+    savedMethod ? (isPresetMethod(savedMethod) ? savedMethod : OTHER_METHOD) : PAYMENT_METHODS[0],
+  );
+  const [customMethod, setCustomMethod] = useState(
+    savedMethod && !isPresetMethod(savedMethod) ? savedMethod : '',
+  );
   const [memo, setMemo] = useState(initial?.memo ?? '');
   const [isActive, setIsActive] = useState(initial?.isActive ?? true);
 
@@ -68,7 +83,7 @@ export function SubscriptionForm({ initial, prefill = null, onSaved, onCancel }:
       customDays: billingCycle === 'custom' ? Number(customDays) : null,
       nextBillingAt,
       category,
-      paymentMethod: paymentMethod.trim(),
+      paymentMethod: methodChoice === OTHER_METHOD ? customMethod.trim() : methodChoice,
       memo: memo.trim() ? memo.trim() : null,
       isActive,
     };
@@ -200,13 +215,30 @@ export function SubscriptionForm({ initial, prefill = null, onSaved, onCancel }:
           </select>
         </Field>
 
-        <Field label="결제수단" error={errors.paymentMethod}>
-          <input
-            className="ui-input"
-            value={paymentMethod}
-            onChange={(e) => setPaymentMethod(e.target.value)}
-          />
+        <Field label="결제수단" error={methodChoice === OTHER_METHOD ? undefined : errors.paymentMethod}>
+          <select
+            className="ui-select"
+            value={methodChoice}
+            onChange={(e) => setMethodChoice(e.target.value)}
+          >
+            {PAYMENT_METHODS.map((m) => (
+              <option key={m} value={m}>
+                {m}
+              </option>
+            ))}
+          </select>
         </Field>
+
+        {methodChoice === OTHER_METHOD ? (
+          <Field label="결제수단 직접 입력" error={errors.paymentMethod}>
+            <input
+              className="ui-input"
+              value={customMethod}
+              onChange={(e) => setCustomMethod(e.target.value)}
+              placeholder="예: 문화상품권"
+            />
+          </Field>
+        ) : null}
 
         <Field label="메모 (선택)">
           <textarea
