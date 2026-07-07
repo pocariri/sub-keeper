@@ -39,6 +39,11 @@ packages/core  # @sub-keeper/core — 공유 타입·로직·검증·BaaS 접근
   (mobile 은 Expo SDK 가 고정, web 은 이에 맞춤). 버전 올릴 땐 `apps/web` 과 `apps/mobile`
   의 `react`/`react-dom` 을 **함께** 바꾸고 `apps/web/node_modules/.vite` 캐시 삭제 후 재기동.
 - pnpm 빌드 스크립트 허용은 `pnpm-workspace.yaml` 의 `allowBuilds` 에 둔다(package.json `pnpm` 필드는 무시됨).
+- **"본인 데이터" 조회는 RLS 에만 맡기지 말고 반드시 auth uid 로 명시 필터**할 것.
+  관리자 계정은 admin RLS(0003·0004)로 전체 행이 보이므로, 필터 없는 `select` 는 admin 에게
+  남의 데이터까지 반환하고 `maybeSingle()` 은 다중 행 에러를 낸다(실제로 getProfile 이 깨져
+  admin 이 일반 사용자처럼 보이는 버그 있었음). 전체 조회가 필요한 관리자용 함수는
+  `listAll*` 로 따로 둔다.
 
 ## 자주 쓰는 명령어
 

@@ -30,11 +30,22 @@ function rowToInquiry(row: InquiryRow): Inquiry {
   };
 }
 
-/** 본인 문의 목록 (최신순) — RLS 가 본인 것만 반환 */
+/**
+ * 본인 문의 목록 (최신순).
+ * 관리자는 RLS 로 전체 문의가 보이므로(inquiries_select_own_or_admin) 본인 id 로 명시 필터.
+ */
 export async function listInquiries(client: SupabaseClient): Promise<Inquiry[]> {
+  const {
+    data: { user },
+    error: userErr,
+  } = await client.auth.getUser();
+  if (userErr) throw new Error(userErr.message);
+  if (!user) return [];
+
   const { data, error } = await client
     .from(TABLE)
     .select('*')
+    .eq('user_id', user.id)
     .order('created_at', { ascending: false });
   if (error) throw new Error(error.message);
   return (data as InquiryRow[]).map(rowToInquiry);

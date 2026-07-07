@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { listAllProfiles, listSubscriptions, buildAdminOverview } from '@sub-keeper/core';
+import { listAllProfiles, listAllSubscriptions, buildAdminOverview } from '@sub-keeper/core';
 import type { AdminOverview } from '@sub-keeper/core';
 import { supabase } from './supabase';
 
@@ -30,7 +30,7 @@ export function useAdminOverview(): UseAdminOverview {
     try {
       const [profiles, subscriptions] = await Promise.all([
         listAllProfiles(supabase),
-        listSubscriptions(supabase),
+        listAllSubscriptions(supabase),
       ]);
       setOverview(buildAdminOverview(profiles, subscriptions));
     } catch (e) {

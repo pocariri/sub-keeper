@@ -62,14 +62,37 @@ function inputToColumns(input: SubscriptionInput) {
   };
 }
 
-/** 본인 구독 목록 (다음 결제일 오름차순) */
+/**
+ * 본인 구독 목록 (다음 결제일 오름차순).
+ * 관리자는 RLS 로 전체 행이 보이므로(admin_read_all_subscriptions) 본인 id 로 명시 필터.
+ */
 export async function listSubscriptions(
   client: SupabaseClient,
 ): Promise<Subscription[]> {
+  const {
+    data: { user },
+    error: userErr,
+  } = await client.auth.getUser();
+  if (userErr) throw new Error(userErr.message);
+  if (!user) return [];
+
   const { data, error } = await client
     .from(TABLE)
     .select('*')
+    .eq('user_id', user.id)
     .order('next_billing_at', { ascending: true });
+  if (error) throw new Error(error.message);
+  return (data as SubscriptionRow[]).map(rowToSubscription);
+}
+
+/**
+ * 전체 구독 목록 — 관리자 화면용.
+ * 범위는 RLS 가 통제: 관리자면 전체, 일반 사용자면 본인 것만.
+ */
+export async function listAllSubscriptions(
+  client: SupabaseClient,
+): Promise<Subscription[]> {
+  const { data, error } = await client.from(TABLE).select('*');
   if (error) throw new Error(error.message);
   return (data as SubscriptionRow[]).map(rowToSubscription);
 }

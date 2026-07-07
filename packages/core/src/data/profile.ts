@@ -21,9 +21,24 @@ function rowToProfile(row: ProfileRow): Profile {
   };
 }
 
-/** 현재 로그인 사용자의 프로필 (RLS 로 본인 행만 조회). 없으면 null. */
+/**
+ * 현재 로그인 사용자의 프로필. 없으면 null.
+ * 관리자는 RLS 로 전체 행이 보이므로(admin_read_all_profiles) 본인 id 로 명시 필터 —
+ * RLS 에만 맡기면 maybeSingle 이 다중 행 에러를 낸다.
+ */
 export async function getProfile(client: SupabaseClient): Promise<Profile | null> {
-  const { data, error } = await client.from('profiles').select('*').maybeSingle();
+  const {
+    data: { user },
+    error: userErr,
+  } = await client.auth.getUser();
+  if (userErr) throw new Error(userErr.message);
+  if (!user) return null;
+
+  const { data, error } = await client
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .maybeSingle();
   if (error) throw new Error(error.message);
   return data ? rowToProfile(data as ProfileRow) : null;
 }

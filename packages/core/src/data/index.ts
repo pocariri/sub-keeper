@@ -1,5 +1,6 @@
 export {
   listSubscriptions,
+  listAllSubscriptions,
   createSubscription,
   updateSubscription,
   deleteSubscription,
