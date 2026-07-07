@@ -44,21 +44,28 @@ function monthKey(d: Date): string {
  * 관리자 대시보드용 집계 — 순수 함수.
  * profiles/subscriptions 는 관리자 권한으로 조회한 전체 데이터를 전제
  * (범위 자체는 DB RLS 가 통제).
+ * admin 계정(role='admin')과 그 소유 구독은 모든 통계·목록에서 제외한다.
  */
 export function buildAdminOverview(
   profiles: Profile[],
   subscriptions: Subscription[],
   now: Date = new Date(),
 ): AdminOverview {
+  const memberProfiles = profiles.filter((p) => p.role !== 'admin');
+  const adminIds = new Set(
+    profiles.filter((p) => p.role === 'admin').map((p) => p.id),
+  );
+  const memberSubs = subscriptions.filter((s) => !adminIds.has(s.userId));
+
   const subsByUser = new Map<string, { total: number; active: number }>();
-  for (const s of subscriptions) {
+  for (const s of memberSubs) {
     const c = subsByUser.get(s.userId) ?? { total: 0, active: 0 };
     c.total += 1;
     if (s.isActive) c.active += 1;
     subsByUser.set(s.userId, c);
   }
 
-  const members: AdminMemberRow[] = profiles.map((p) => {
+  const members: AdminMemberRow[] = memberProfiles.map((p) => {
     const c = subsByUser.get(p.id) ?? { total: 0, active: 0 };
     return {
       id: p.id,
@@ -79,17 +86,18 @@ export function buildAdminOverview(
     const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - i, 1));
     trend.set(monthKey(d), 0);
   }
-  for (const p of profiles) {
+  for (const p of memberProfiles) {
     const key = monthKey(new Date(p.createdAt));
     if (trend.has(key)) trend.set(key, (trend.get(key) ?? 0) + 1);
   }
 
   return {
-    totalMembers: profiles.length,
+    totalMembers: memberProfiles.length,
     premiumMembers,
-    premiumRate: profiles.length === 0 ? 0 : premiumMembers / profiles.length,
-    totalSubscriptions: subscriptions.length,
-    activeSubscriptions: subscriptions.filter((s) => s.isActive).length,
+    premiumRate:
+      memberProfiles.length === 0 ? 0 : premiumMembers / memberProfiles.length,
+    totalSubscriptions: memberSubs.length,
+    activeSubscriptions: memberSubs.filter((s) => s.isActive).length,
     members,
     signupTrend: [...trend.entries()].map(([month, count]) => ({ month, count })),
   };
