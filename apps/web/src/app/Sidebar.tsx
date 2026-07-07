@@ -24,7 +24,7 @@ export function Sidebar() {
 
   return (
     <nav className="sidebar">
-      <div className="sidebar__brand">sub-keeper</div>
+      <div className="sidebar__brand">구독모아</div>
 
       {APP_SECTIONS.map((section) => (
         <NavLink

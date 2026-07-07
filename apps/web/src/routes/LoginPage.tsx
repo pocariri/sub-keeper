@@ -76,7 +76,7 @@ export function LoginPage({ initialMode = 'signin' }: { initialMode?: Mode }) {
   return (
     <div className="auth">
       <div className="auth__card">
-        <h1 className="auth__brand">sub-keeper</h1>
+        <h1 className="auth__brand">구독모아</h1>
         <p className="auth__subtitle">{mode === 'signin' ? '로그인' : '회원가입'}</p>
 
         {!isSupabaseConfigured ? (

@@ -3,7 +3,7 @@
 import { PREMIUM_PRICE_KRW } from '@sub-keeper/core';
 
 export const PRODUCT = {
-  name: '구독 모아',
+  name: '구독모아',
   tagline: '흩어진 구독, 한 곳에서 관리하세요',
   subtext:
     '결제일과 총액을 자동으로 정리하고, 갱신되기 전에 미리 알려드립니다. 통화가 섞여 있어도 결제일 기준 환율로 환산해 한눈에 보여줍니다.',
