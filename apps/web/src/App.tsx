@@ -11,6 +11,7 @@ import { RenewalsPage } from './routes/RenewalsPage';
 import { ProfilePage } from './routes/ProfilePage';
 import { InquiriesPage } from './routes/InquiriesPage';
 import { AdminPage } from './routes/AdminPage';
+import { AdminInquiriesPage } from './routes/AdminInquiriesPage';
 import { PagePlaceholder } from './routes/PagePlaceholder';
 
 export default function App() {
@@ -42,6 +43,7 @@ export default function App() {
         <Route element={<RequireAdmin />}>
           <Route element={<AppLayout />}>
             <Route index element={<AdminPage />} />
+            <Route path="inquiries" element={<AdminInquiriesPage />} />
             <Route
               path="*"
               element={<PagePlaceholder title="404" note="존재하지 않는 페이지입니다." />}

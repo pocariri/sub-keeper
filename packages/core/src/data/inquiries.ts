@@ -51,6 +51,35 @@ export async function listInquiries(client: SupabaseClient): Promise<Inquiry[]> 
   return (data as InquiryRow[]).map(rowToInquiry);
 }
 
+/**
+ * 전체 문의 목록 (최신순) — 관리자 화면용.
+ * 범위는 RLS 가 통제: 관리자(inquiries_select_own_or_admin)면 전체, 일반 사용자면 본인 것만.
+ */
+export async function listAllInquiries(client: SupabaseClient): Promise<Inquiry[]> {
+  const { data, error } = await client
+    .from(TABLE)
+    .select('*')
+    .order('created_at', { ascending: false });
+  if (error) throw new Error(error.message);
+  return (data as InquiryRow[]).map(rowToInquiry);
+}
+
+/** 관리자 답변 등록/수정 — status 를 answered 로 전환 (RLS inquiries_update_admin) */
+export async function answerInquiry(
+  client: SupabaseClient,
+  id: string,
+  answer: string,
+): Promise<Inquiry> {
+  const { data, error } = await client
+    .from(TABLE)
+    .update({ answer, status: 'answered', answered_at: new Date().toISOString() })
+    .eq('id', id)
+    .select('*')
+    .single();
+  if (error) throw new Error(error.message);
+  return rowToInquiry(data as InquiryRow);
+}
+
 /** 문의 등록 (user_id 는 현재 세션에서 채움 → RLS insert 정책 충족) */
 export async function createInquiry(
   client: SupabaseClient,

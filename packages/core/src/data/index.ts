@@ -8,4 +8,4 @@ export {
 export { getProfile, listAllProfiles } from './profile';
 export { getExchangeRates } from './exchangeRates';
 export { listServicePresets } from './presets';
-export { listInquiries, createInquiry } from './inquiries';
+export { listInquiries, listAllInquiries, createInquiry, answerInquiry } from './inquiries';

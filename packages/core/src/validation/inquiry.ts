@@ -19,3 +19,13 @@ export const inquiryInputSchema = z.object({
 export type InquiryInputSchema = z.infer<typeof inquiryInputSchema>;
 const _typeCheck: InquiryInput = {} as InquiryInputSchema;
 void _typeCheck;
+
+/** 관리자 답변 검증 스키마 */
+export const inquiryAnswerSchema = z.object({
+  answer: z
+    .string()
+    .trim()
+    .min(1, '답변을 입력하세요')
+    .max(2000, '답변은 2000자 이내로 입력하세요'),
+});
+export type InquiryAnswerSchema = z.infer<typeof inquiryAnswerSchema>;

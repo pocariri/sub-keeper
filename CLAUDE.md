@@ -97,7 +97,10 @@ pnpm build:web          # 웹 프로덕션 빌드
   - core: `listAllProfiles`(`data/profile.ts`, RLS가 범위 통제), `logic/admin.ts`의 `buildAdminOverview`(회원별 구독 집계·프리미엄 이용률·월별 가입 추이 6개월 제로필, 순수 함수). 구독 전체 조회는 기존 `listSubscriptions` 재사용(관리자면 RLS가 전체 반환).
   - 웹: `AdminPage` = KPI 스탯(총 회원·프리미엄 이용률·활성 구독) + **recharts 3.x** 신규 가입 추이 BarChart(무채색, 색은 core `tokens.colors.gray` 직접 전달 — SVG에 CSS var 불가) + 매출 추이/해지율 "준비 중" 빈 패널 + 회원 목록 테이블(`.subs-table` 재사용). `useAdminOverview` 훅.
   - ⚠️ recharts 추가로 웹 번들 ~925KB(gzip 266KB) — 필요 시 코드 스플리팅 후보. Expo 툴링이 react-dom@19.2.7 peer 경고를 내지만 웹 트리는 19.2.3 단일(무관).
-  - 다음: 회원 상세/문의 답변 UI, 결제 후 매출·해지율 실데이터.
+- **관리자 문의 관리/답변 — 완료(웹)**:
+  - core: `listAllInquiries`·`answerInquiry`(답변 + status=answered + answered_at, RLS `inquiries_update_admin`), `inquiryAnswerSchema`.
+  - 웹: `/admin/inquiries`(`AdminInquiriesPage`: 작성자 이메일 조인·상태 필터(전체/대기/완료)·대기 우선 정렬, `InquiryAnswerForm` 답변 작성/수정 모달, `useAdminInquiries` 훅), AdminPage 헤더에 "문의 관리" 진입 버튼.
+  - 다음: 회원 상세, 결제 후 매출·해지율 실데이터.
 - 남은 것(웹): **결제 모듈**(prd-payment, PG/Edge Functions), **관리자 화면 내용**(prd-admin, 문의 답변 포함 — 라우트 골격은 완료), 분석 차트(결제 후), 환율 시드(현재 통화별 분리 표시), `_introduce-src` 정리.
 - **모바일**: 사용자 요청 시까지 보류(현재 placeholder만). 공유 로직은 core에 준비됨.
 - 로드맵: `prd-app.md` 11장.
