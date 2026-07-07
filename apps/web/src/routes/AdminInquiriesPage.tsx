@@ -33,7 +33,7 @@ export function AdminInquiriesPage() {
       <div className="page__head">
         <h1 className="page__title">문의 관리</h1>
         <select
-          className="ui-select"
+          className="ui-select ui-select--sm"
           value={filter}
           onChange={(e) => setFilter(e.target.value as Filter)}
           aria-label="문의 상태 필터"
