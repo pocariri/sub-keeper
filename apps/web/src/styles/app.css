@@ -86,7 +86,7 @@
   padding: var(--sp-2);
   margin-bottom: var(--sp-2);
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--ink-900);
 }
@@ -143,14 +143,14 @@
 .page__title {
   margin: 0;
   font-size: 32px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--ink-900);
 }
 .page__subtitle {
   margin: var(--sp-2) 0 0;
   font-size: 14px;
-  color: var(--ink-500);
+  color: var(--ink-600);
 }
 .page__section {
   margin-top: var(--sp-8);
@@ -182,7 +182,7 @@
   color: var(--surface);
 }
 .ui-btn--primary:not(:disabled):hover {
-  background: var(--ink-700);
+  background: var(--ink-950);
 }
 .ui-btn--secondary {
   background: var(--surface);
@@ -227,7 +227,7 @@
   color: var(--ink-900);
   background: var(--surface);
   border: 1px solid var(--line-strong);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   transition: border-color var(--ease), box-shadow var(--ease);
 }
 .ui-textarea {
@@ -272,7 +272,7 @@
   padding: var(--sp-6);
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
 }
 .stat__label {
   font-size: 14px;
@@ -281,7 +281,7 @@
 .stat__value {
   margin-top: var(--sp-1);
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ink-900);
   font-variant-numeric: tabular-nums;
 }
@@ -296,7 +296,7 @@
   padding: var(--sp-6);
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
 }
 
 /* ---------- List header row ---------- */
@@ -373,7 +373,7 @@
   padding: var(--sp-4);
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
 }
 .renewal__main {
   flex: 1;
@@ -397,11 +397,11 @@
   min-width: 56px;
   text-align: center;
   padding: var(--sp-1) var(--sp-2);
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   font-size: 14px;
   font-weight: 500;
   background: var(--bg-subtle);
-  color: var(--ink-700);
+  color: var(--ink-600);
 }
 .dday--urgent {
   background: var(--ink-900);
@@ -421,7 +421,7 @@
   text-align: center;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
 }
 .empty__text {
   margin: 0;
@@ -459,7 +459,7 @@
 .plan-name {
   margin-top: var(--sp-1);
   font-size: 24px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ink-900);
 }
 .benefit-list {
@@ -477,7 +477,7 @@
   text-align: center;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
 }
 .lock__tag {
   display: inline-block;
@@ -491,7 +491,7 @@
 .lock__title {
   margin: var(--sp-4) 0 0;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink-900);
 }
 .lock__desc {
@@ -526,13 +526,13 @@
   padding: var(--sp-8);
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   box-shadow: 0 20px 48px rgba(23, 24, 26, 0.12);
 }
 .form-title {
   margin: 0;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--ink-900);
 }
 .form-hint {
@@ -634,24 +634,27 @@
   padding: var(--sp-6);
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
 }
 .inquiry__head {
   display: flex;
   align-items: center;
   gap: var(--sp-3);
 }
+/* 시안 배지 규칙: 대기 = 조용한 아웃라인, 완료 = 잉크 채움 (색이 아니라 채움/굵기로 구분) */
 .inquiry__status {
   flex: none;
   padding: var(--sp-1) var(--sp-2);
-  border-radius: var(--radius-sm);
+  border-radius: 999px;
   font-size: 12px;
   font-weight: 500;
-  background: var(--bg-subtle);
-  color: var(--ink-700);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-600);
 }
 .inquiry__status--answered {
   background: var(--ink-900);
+  border-color: var(--ink-900);
   color: var(--surface);
 }
 .inquiry__title {

@@ -10,24 +10,26 @@
  */
 
 /**
- * 무채색 램프 (minimal-design 스킬 기준, 강조색 없음).
- *   gray[900]=ink(니어블랙 본문) … gray[400]=뮤트, gray[300]=진한 하네어라인,
+ * 무채색 램프 (Claude Design 시안 '구독모아' 디자인 시스템 기준, 강조색 없음).
+ * 시안 원값은 oklch 12단계 — RN 호환을 위해 sRGB hex 로 환산해 저장(주석에 oklch L 병기).
+ *   gray[900]=ink(니어블랙 본문) … gray[400]=뮤트, gray[300]=기본 보더,
  *   gray[200]=하네어라인, gray[100]=미묘한 블록, gray[50]=페이지 배경(오프화이트).
  */
 export const colors = {
-  black: '#17181A', // 니어블랙 (순흑 대신)
-  white: '#FFFFFF', // surface 전용 (페이지 배경으로 쓰지 말 것 → gray[50])
+  black: '#1E1E1E', // 니어블랙 (순흑 대신) = gray[900]
+  white: '#FFFFFF', // 순백 — 배경/카드에 직접 쓰지 말 것(카드는 gray 램프 밖 #FBFBFB surface)
   gray: {
-    50: '#FAFAFA', // bg — 페이지 배경(오프화이트)
-    100: '#F2F3F4', // bg-subtle — hover/미묘한 블록
-    200: '#E6E7E9', // line — 하네어라인 보더
-    300: '#D7D9DC', // line-strong — 진한 하네어라인
-    400: '#9A9DA3', // 플레이스홀더/뮤트
-    500: '#6B6E73', // 보조 텍스트
-    600: '#55585C', // 강조 보조 텍스트
-    700: '#3F4145', // 강조 텍스트/아이콘 (ink-700)
-    800: '#24262A', // 강한 텍스트
-    900: '#17181A', // 기본 텍스트 (니어블랙, ink-900)
+    50: '#F5F5F5', // bg — 페이지 배경 (oklch 0.971)
+    100: '#EDEDED', // bg-subtle — hover/미묘한 블록 (0.945)
+    200: '#E2E2E2', // line — 하네어라인 보더 (0.912)
+    300: '#D1D1D1', // line-strong — 기본 보더 (0.860)
+    400: '#ABABAB', // 플레이스홀더/뮤트 (0.740)
+    500: '#868686', // 보조 텍스트(tertiary) (0.620)
+    600: '#646464', // secondary 텍스트 (0.505)
+    700: '#464646', // 강조 텍스트/아이콘 (0.395)
+    800: '#2E2E2E', // 강한 텍스트 (0.300)
+    900: '#1E1E1E', // 기본 텍스트 (니어블랙) (0.235)
+    950: '#101010', // 가장 어두운 잉크 — primary hover (0.175)
   },
 } as const;
 
@@ -41,19 +43,19 @@ export const spacing = {
   '2xl': 48,
 } as const;
 
-/** 모서리 반경 */
+/** 모서리 반경 (시안: sm=칩, md=버튼/입력, lg=카드) */
 export const radii = {
   none: 0,
-  sm: 4,
-  md: 8,
-  lg: 16,
+  sm: 6,
+  md: 10,
+  lg: 14,
   full: 9999,
 } as const;
 
 /** 타이포그래피 (size/lineHeight, px) */
 export const typography = {
   fontFamily: {
-    base: 'system-ui, -apple-system, sans-serif',
+    base: "'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif",
   },
   size: {
     xs: 12,

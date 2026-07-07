@@ -1,49 +1,49 @@
 /* ============================================================
-   인증 화면 (로그인 / 회원가입) — minimal-design
-   무채색·미니멀. 위계는 크기·굵기·여백으로. 색은 램프에서만.
+   인증 화면 (로그인 / 회원가입) — Claude Design 시안 레이아웃
+   셸 없는 중앙 컬럼(카드 보더 없음), 좌정렬 브랜드 + 서브카피,
+   라벨 있는 필드, 풀폭 잉크 버튼. 무채색·토큰만 사용.
    토큰은 styles/tokens.css (전역) 참조.
    ============================================================ */
 .auth {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: var(--sp-6);
+  padding: var(--sp-8);
   background: var(--bg);
   color: var(--ink-900);
   font-family: var(--font);
   box-sizing: border-box;
 }
 
-.auth__card {
-  width: 380px;
-  max-width: 100%;
-  box-sizing: border-box;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: var(--sp-8);
+.auth__panel {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
 }
 
 .auth__brand {
   margin: 0;
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 28px;
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--ink-900);
 }
 
 .auth__subtitle {
-  margin: var(--sp-1) 0 0;
-  font-size: 14px;
-  color: var(--ink-500);
+  margin: var(--sp-2) 0 0;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink-600);
 }
 
 /* Supabase 미설정 안내 — 담담한 톤 */
 .auth__hint {
-  margin: var(--sp-4) 0 0;
+  margin: 0;
   padding: var(--sp-3);
   background: var(--bg-subtle);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   font-size: 14px;
   line-height: 1.5;
   color: var(--ink-600);
@@ -53,12 +53,50 @@
   color: var(--ink-900);
 }
 
+/* ---------- 에러 박스 ("!" 프리픽스, 보더로 구분 — 시안) ---------- */
+.auth__error {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: flex-start;
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-900);
+}
+.auth__error-mark {
+  font-weight: 700;
+}
+
+.auth__notice {
+  margin: 0;
+  padding: var(--sp-3);
+  border-radius: var(--radius);
+  background: var(--bg-subtle);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-600);
+}
+
 /* ---------- Form ---------- */
 .auth__form {
-  margin-top: var(--sp-6);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
+}
+
+.auth__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.auth__label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-600);
 }
 
 .auth__input {
@@ -70,7 +108,7 @@
   color: var(--ink-900);
   background: var(--surface);
   border: 1px solid var(--line-strong);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   transition: border-color var(--ease), box-shadow var(--ease);
 }
 .auth__input::placeholder {
@@ -82,17 +120,29 @@
 .auth__input:focus {
   outline: none;
   border-color: var(--ink-900);
-  box-shadow: 0 0 0 3px rgba(23, 24, 26, 0.08);
+  box-shadow: 0 0 0 3px rgba(30, 30, 30, 0.08);
 }
 
 /* ---------- Buttons ---------- */
+.auth__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}
+
 .auth__btn {
   width: 100%;
   box-sizing: border-box;
-  padding: var(--sp-3) var(--sp-4);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-6);
   font: inherit;
   font-size: 16px;
   font-weight: 500;
+  line-height: 1.4;
   border: 1px solid transparent;
   border-radius: var(--radius);
   cursor: pointer;
@@ -105,18 +155,17 @@
   color: var(--ink-400);
 }
 
-/* Primary — 니어블랙 채움 */
+/* Primary — 잉크 채움, hover 는 더 어둡게 (시안) */
 .auth__btn--primary {
   background: var(--ink-900);
   color: var(--surface);
 }
 .auth__btn--primary:not(:disabled):hover {
-  background: var(--ink-700);
+  background: var(--ink-950);
 }
 
-/* Secondary — 표면 + 하네어라인 */
+/* Secondary — 표면 + 기본 보더 */
 .auth__btn--secondary {
-  margin-top: var(--sp-2);
   background: var(--surface);
   border-color: var(--line-strong);
   color: var(--ink-900);
@@ -125,42 +174,42 @@
   background: var(--bg-subtle);
 }
 
-/* ---------- Messages (상태) ---------- */
-.auth__error,
-.auth__notice {
-  margin: var(--sp-4) 0 0;
-  padding: var(--sp-3);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  line-height: 1.5;
+/* 진행 중 스피너 (시안) */
+.auth__spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: auth-spin 0.7s linear infinite;
 }
-/* 에러: 사과 없이 담담하게. 색이 아니라 보더+굵기로 구분 */
-.auth__error {
-  color: var(--ink-900);
-  background: var(--bg-subtle);
-  border: 1px solid var(--line-strong);
-}
-.auth__notice {
-  color: var(--ink-600);
-  background: var(--bg-subtle);
+@keyframes auth-spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* ---------- Mode toggle (링크형) ---------- */
-.auth__switch {
-  margin-top: var(--sp-6);
-  width: 100%;
+/* ---------- 하단 링크 행 (시안: 중앙 정렬 13px) ---------- */
+.auth__links {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-4);
+}
+.auth__link {
+  padding: 0;
   background: none;
   border: none;
   font: inherit;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--ink-500);
   cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 2px;
   transition: color var(--ease);
 }
-.auth__switch:hover {
+.auth__link:hover {
   color: var(--ink-900);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /* ---------- Focus 가시성 ---------- */
@@ -177,5 +226,6 @@
 @media (prefers-reduced-motion: reduce) {
   .auth * {
     transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
   }
 }

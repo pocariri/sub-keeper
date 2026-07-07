@@ -1,22 +1,35 @@
 /* ============================================================
    디자인 토큰 — CSS 변수 (전역, 항상 로드)
-   minimal-design 스킬 기준. 값은 @sub-keeper/core 의 tokens.ts 램프를
-   그대로 미러링한다(단일 소스). 임의 색/간격 대신 반드시 이 변수를 쓸 것.
+   Claude Design 시안('구독모아' 디자인 시스템) 기준.
+   값은 @sub-keeper/core 의 tokens.ts 램프를 그대로 미러링한다(단일 소스).
+   임의 색/간격 대신 반드시 이 변수를 쓸 것.
    무채색만: 강조색·그라데이션 금지. 순흑/순백은 텍스트/배경 대비로 쓰지 않는다.
    ============================================================ */
+
+/* 하우스 타이포 — Pretendard Variable (시안 지정, jsDelivr CDN) */
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/woff2/PretendardVariable.woff2')
+    format('woff2-variations');
+}
+
 :root {
-  /* 무채색 램프 (ink = 니어블랙, bg = 오프화이트) */
-  --ink-900: #17181a; /* 기본 텍스트 */
-  --ink-800: #24262a; /* 강한 텍스트 */
-  --ink-700: #3f4145; /* 강조 텍스트/아이콘 */
-  --ink-600: #55585c; /* 강조 보조 텍스트 */
-  --ink-500: #6b6e73; /* 보조 텍스트 */
-  --ink-400: #9a9da3; /* 플레이스홀더/뮤트 */
-  --line-strong: #d7d9dc; /* 진한 하네어라인 */
-  --line: #e6e7e9; /* 하네어라인 보더 */
-  --bg-subtle: #f2f3f4; /* hover/미묘한 블록 */
-  --bg: #fafafa; /* 페이지 배경 (오프화이트) */
-  --surface: #ffffff; /* 카드/입력 표면 */
+  /* 무채색 램프 (ink = 니어블랙, bg = 오프화이트) — 시안 oklch 환산값 */
+  --ink-950: #101010; /* 가장 어두운 잉크 — primary hover */
+  --ink-900: #1e1e1e; /* 기본 텍스트 */
+  --ink-800: #2e2e2e; /* 강한 텍스트 */
+  --ink-700: #464646; /* 강조 텍스트/아이콘 */
+  --ink-600: #646464; /* secondary 텍스트 */
+  --ink-500: #868686; /* 보조 텍스트(tertiary) */
+  --ink-400: #ababab; /* 플레이스홀더/뮤트 */
+  --line-strong: #d1d1d1; /* 기본 보더 */
+  --line: #e2e2e2; /* 하네어라인 보더 */
+  --bg-subtle: #ededed; /* hover/미묘한 블록 */
+  --bg: #f5f5f5; /* 페이지 배경 (오프화이트) */
+  --surface: #fbfbfb; /* 카드/입력 표면 (순백 금지) */
 
   /* 간격 스케일 (4px 베이스) */
   --sp-1: 4px;
@@ -28,15 +41,17 @@
   --sp-12: 48px;
   --sp-16: 64px;
 
-  /* 라운드 */
-  --radius-sm: 8px;
+  /* 라운드 (sm=칩, 기본=버튼/입력, lg=카드) */
+  --radius-sm: 6px;
   --radius: 10px;
+  --radius-lg: 14px;
 
   /* 모션 */
-  --ease: 160ms cubic-bezier(0.2, 0.6, 0.2, 1);
+  --ease: 140ms ease;
 
   /* 타이포 */
-  --font: system-ui, -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+  --font: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui,
+    'Segoe UI', Roboto, sans-serif;
 }
 
 /* 전역 리셋(무해): 풀블리드 레이아웃을 위해 body 여백만 제거 */

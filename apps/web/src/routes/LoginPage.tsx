@@ -75,9 +75,15 @@ export function LoginPage({ initialMode = 'signin' }: { initialMode?: Mode }) {
 
   return (
     <div className="auth">
-      <div className="auth__card">
-        <h1 className="auth__brand">구독모아</h1>
-        <p className="auth__subtitle">{mode === 'signin' ? '로그인' : '회원가입'}</p>
+      <div className="auth__panel">
+        <header>
+          <h1 className="auth__brand">구독모아</h1>
+          <p className="auth__subtitle">
+            흩어진 구독을 한곳에 모아
+            <br />
+            다음 결제일까지 한눈에 관리해요.
+          </p>
+        </header>
 
         {!isSupabaseConfigured ? (
           <p className="auth__hint">
@@ -85,49 +91,74 @@ export function LoginPage({ initialMode = 'signin' }: { initialMode?: Mode }) {
           </p>
         ) : null}
 
-        <form className="auth__form" onSubmit={onSubmit}>
-          <input
-            className="auth__input"
-            type="email"
-            required
-            placeholder="이메일"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            className="auth__input"
-            type="password"
-            required
-            minLength={6}
-            placeholder="비밀번호 (6자 이상)"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button className="auth__btn auth__btn--primary" type="submit" disabled={disabled}>
-            {busy ? '처리 중…' : mode === 'signin' ? '로그인' : '회원가입'}
-          </button>
-        </form>
-
-        {googleEnabled ? (
-          <button className="auth__btn auth__btn--secondary" type="button" onClick={onGoogle}>
-            Google 로 계속하기
-          </button>
+        {error ? (
+          <div className="auth__error">
+            <span className="auth__error-mark">!</span>
+            <span>{error}</span>
+          </div>
         ) : null}
 
-        {error ? <p className="auth__error">{error}</p> : null}
+        <form className="auth__form" onSubmit={onSubmit}>
+          <label className="auth__field">
+            <span className="auth__label">이메일</span>
+            <input
+              className="auth__input"
+              type="email"
+              required
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </label>
+          <label className="auth__field">
+            <span className="auth__label">비밀번호</span>
+            <input
+              className="auth__input"
+              type="password"
+              required
+              minLength={6}
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+
+          <div className="auth__actions">
+            <button className="auth__btn auth__btn--primary" type="submit" disabled={disabled}>
+              {busy ? (
+                <>
+                  <span className="auth__spinner" aria-hidden="true" />
+                  {mode === 'signin' ? '로그인 중…' : '가입 중…'}
+                </>
+              ) : mode === 'signin' ? (
+                '로그인'
+              ) : (
+                '회원가입'
+              )}
+            </button>
+            {googleEnabled ? (
+              <button className="auth__btn auth__btn--secondary" type="button" onClick={onGoogle}>
+                Google 로 계속하기
+              </button>
+            ) : null}
+          </div>
+        </form>
+
         {notice ? <p className="auth__notice">{notice}</p> : null}
 
-        <button
-          className="auth__switch"
-          type="button"
-          onClick={() => {
-            setMode(mode === 'signin' ? 'signup' : 'signin');
-            setError(null);
-            setNotice(null);
-          }}
-        >
-          {mode === 'signin' ? '계정이 없나요? 회원가입' : '이미 계정이 있나요? 로그인'}
-        </button>
+        <div className="auth__links">
+          <button
+            className="auth__link"
+            type="button"
+            onClick={() => {
+              setMode(mode === 'signin' ? 'signup' : 'signin');
+              setError(null);
+              setNotice(null);
+            }}
+          >
+            {mode === 'signin' ? '계정이 없나요? 회원가입' : '이미 계정이 있나요? 로그인'}
+          </button>
+        </div>
       </div>
     </div>
   );
