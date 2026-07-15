@@ -67,7 +67,7 @@ pnpm build:web          # 웹 프로덕션 빌드
   MCP(`.mcp.json`, project 스코프)로 접근. DB는 이미 프로비저닝돼 있음 — 3개 테이블(profiles·subscriptions·exchange_rates),
   RLS 정책, 트리거(가입 시 profile 생성 `on_auth_user_created`, `updated_at`, **무료 10개 제한 `subscriptions_free_limit`**).
   → `supabase/schema.sql` 은 참고용이며 실제 DB가 더 완비됨(재실행 불필요).
-  ⚠️ **이메일 확인(Confirm email) 켜져 있음** → 가입 후 메일 확인해야 로그인. **Google provider 미설정**(로그인 화면에서 버튼 자동 숨김; `fetchEnabledProviders`).
+  ⚠️ **이메일 확인(Confirm email) 켜져 있음** → 가입 후 메일 확인해야 로그인. **Google provider 설정 완료**(Google Cloud OAuth 클라이언트 + Supabase 대시보드, 2026-07-15) — Google 로그인 동작 확인, `redirectTo`는 `/app`. 버튼 표시는 `fetchEnabledProviders` 자동 감지.
 - **구독 데이터 계층 + 대시보드 + CRUD — 완료(웹)**:
   - core: `data/subscriptions.ts`(list/create/update/delete + snake↔camel 매핑, 클라이언트 주입식),
     `logic` 실제 구현(`nextBillingDate`·`monthlyAmount`/`yearlyAmount`·`totalsByCurrency`·`convert`·`monthlyTotal`·`upcomingRenewals`·`formatMoney`). `categoryBreakdown` 은 분석 단계 스텁 유지.

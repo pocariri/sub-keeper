@@ -174,6 +174,14 @@
   background: var(--bg-subtle);
 }
 
+/* 구글 "G" 마크 — 버튼 텍스트보다 한 단계 옅게 */
+.auth__gmark {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: var(--ink-700);
+}
+
 /* 진행 중 스피너 (시안) */
 .auth__spinner {
   display: inline-block;
